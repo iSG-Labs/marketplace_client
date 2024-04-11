@@ -1017,6 +1017,21 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.57.0.tgz#a5417ae8427873f1dd08b70b3574b453e67b5f7f"
   integrity sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==
 
+"@fontsource/open-sans@^5.0.27":
+  version "5.0.27"
+  resolved "https://registry.yarnpkg.com/@fontsource/open-sans/-/open-sans-5.0.27.tgz#d9c18de6d1bc95e263df92ef77432ac3638c9a0b"
+  integrity sha512-tFTqx2TE9srmM3pMEHldw0lTglqhKwFX6PVDEL0OF9xNT0x5W9brsezFHhV/U36pQV9So7S0vo4yVpnLzBBQew==
+
+"@fontsource/poppins@^5.0.13":
+  version "5.0.13"
+  resolved "https://registry.yarnpkg.com/@fontsource/poppins/-/poppins-5.0.13.tgz#0522986a405ef45f0ec87f17b164790e450db6ab"
+  integrity sha512-8G9odFoxH43oZpvq43fpGucm8iHm6iatu0M1LIshb+tx3/y6YBXenVED7CI4resvPz6hyDu8a2vHSh9vrpe+wQ==
+
+"@fontsource/raleway@^5.0.17":
+  version "5.0.17"
+  resolved "https://registry.yarnpkg.com/@fontsource/raleway/-/raleway-5.0.17.tgz#5d894d5e385bfbce9a7c6e2a27e53d84c24a785f"
+  integrity sha512-JQ86C+y7jSnaxKaqhYX5i6suc7IgUvAkVnP+Z7iWvtrZRl94nXzUU89E84eMq6tCOmbBin/uvtAGfgdJGskT1A==
+
 "@humanwhocodes/config-array@^0.11.14":
   version "0.11.14"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.14.tgz#d78e481a039f7566ecc9660b4ea7fe6b1fec442b"

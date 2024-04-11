@@ -1,10 +1,13 @@
 import { Button, Heading } from '@chakra-ui/react'
+import Base from '@/components/Base'
 
 export default function Home() {
     return (
-        <main>
-            <Heading>Marketplace</Heading>
-            <Button>Click me</Button>
-        </main>
+        <Base>
+            <main>
+                <Heading>Marketplace</Heading>
+                <Button>Click me</Button>
+            </main>
+        </Base>
     )
 }
