@@ -24,12 +24,7 @@ export default function Signup() {
     const [showPassword, setShowPassword] = useState(false)
     return (
         <Base>
-            <Flex
-                minH={'100vh'}
-                align={'center'}
-                justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}
-            >
+            <Flex minH={'100vh'} align={'center'} justify={'center'}>
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                     <Box
                         rounded={'lg'}

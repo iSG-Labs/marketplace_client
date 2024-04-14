@@ -22,7 +22,7 @@ import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
 
 import NavLink from './NavLink'
 
-const Links = ['Dashboard', 'Projects', 'Team', 'Signin', 'Signup']
+const Links = ['Signin', 'Signup']
 
 export default function Navbar() {
     const { colorMode, toggleColorMode } = useColorMode()

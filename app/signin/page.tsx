@@ -18,12 +18,7 @@ import Base from '@/components/Base'
 export default function Signin() {
     return (
         <Base>
-            <Flex
-                minH={'90vh'}
-                align={'center'}
-                justify={'center'}
-                bg={useColorModeValue('gray.50', 'gray.800')}
-            >
+            <Flex minH={'90vh'} align={'center'} justify={'center'}>
                 <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                     <Box
                         rounded={'lg'}
@@ -50,9 +45,9 @@ export default function Signin() {
                                     justify={'space-between'}
                                 >
                                     <Checkbox>Remember me</Checkbox>
-                                    <Text color={'blue.400'}>
+                                    {/* <Text color={'blue.400'}>
                                         Forgot password?
-                                    </Text>
+                                    </Text> */}
                                 </Stack>
                                 <Button
                                     bg={'blue.400'}
