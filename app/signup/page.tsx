@@ -1,11 +1,14 @@
 'use client'
 
 import { useState } from 'react'
+import useSWRMutation from 'swr/mutation'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import {
     Flex,
     Box,
     FormControl,
     FormLabel,
+    FormErrorMessage,
     Input,
     InputGroup,
     HStack,
@@ -15,13 +18,62 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    useToast,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import Base from '@/components/Base'
 import ChakraNextLink from '@/components/ChakraNextLink'
+import { signupAPI } from '@/api'
+
+interface Inputs {
+    firstName: string
+    lastName: string
+    email: string
+    password: string
+}
 
 export default function Signup() {
     const [showPassword, setShowPassword] = useState(false)
+
+    const toast = useToast()
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+    } = useForm<Inputs>()
+    const { trigger, isMutating } = useSWRMutation(
+        'auth/local/signup',
+        signupAPI,
+        {
+            onSuccess: () => {
+                toast({
+                    title: 'Account created.',
+                    description: "We've created your account for you.",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                    position: 'top-right',
+                })
+                reset()
+            },
+            onError: (err) => {
+                toast({
+                    title: 'Error',
+                    description: err.message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                    position: 'top-right',
+                })
+            },
+        },
+    )
+
+    const onSubmit: SubmitHandler<Inputs> = (data) => {
+        trigger({ body: data })
+    }
+
     return (
         <Base>
             <Flex minH={'100vh'} align={'center'} justify={'center'}>
@@ -35,32 +87,91 @@ export default function Signup() {
                         <Heading fontSize={'2xl'} mb={5}>
                             Register your account
                         </Heading>
-                        <Stack spacing={4}>
+
+                        <Stack
+                            spacing={4}
+                            as="form"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
                             <HStack>
                                 <Box>
-                                    <FormControl id="firstName" isRequired>
-                                        <FormLabel>First Name</FormLabel>
-                                        <Input type="text" />
+                                    <FormControl
+                                        id="firstName"
+                                        isInvalid={
+                                            errors.firstName ? true : false
+                                        }
+                                    >
+                                        <FormLabel>Frist Name</FormLabel>
+                                        <Input
+                                            type="text"
+                                            isDisabled={isMutating}
+                                            {...register('firstName', {
+                                                required:
+                                                    'Frist name is required',
+                                            })}
+                                        />
+                                        <FormErrorMessage>
+                                            {errors.firstName &&
+                                                errors.firstName.message}
+                                        </FormErrorMessage>
                                     </FormControl>
                                 </Box>
+
                                 <Box>
-                                    <FormControl id="lastName">
+                                    <FormControl
+                                        id="lastName"
+                                        isInvalid={
+                                            errors.lastName ? true : false
+                                        }
+                                    >
                                         <FormLabel>Last Name</FormLabel>
-                                        <Input type="text" />
+                                        <Input
+                                            type="text"
+                                            isDisabled={isMutating}
+                                            {...register('lastName', {
+                                                required:
+                                                    'Last name is required',
+                                            })}
+                                        />
+                                        <FormErrorMessage>
+                                            {errors.lastName &&
+                                                errors.lastName.message}
+                                        </FormErrorMessage>
                                     </FormControl>
                                 </Box>
                             </HStack>
-                            <FormControl id="email" isRequired>
-                                <FormLabel>Email address</FormLabel>
-                                <Input type="email" />
+
+                            <FormControl
+                                id="email"
+                                isInvalid={errors.email ? true : false}
+                            >
+                                <FormLabel>Email</FormLabel>
+                                <Input
+                                    type="text"
+                                    isDisabled={isMutating}
+                                    {...register('email', {
+                                        required: 'Email is required',
+                                    })}
+                                />
+                                <FormErrorMessage>
+                                    {errors.email && errors.email.message}
+                                </FormErrorMessage>
                             </FormControl>
-                            <FormControl id="password" isRequired>
-                                <FormLabel>Password</FormLabel>
+
+                            <FormControl
+                                id="password"
+                                isInvalid={errors.password ? true : false}
+                            >
+                                <FormLabel>password</FormLabel>
                                 <InputGroup>
                                     <Input
                                         type={
                                             showPassword ? 'text' : 'password'
                                         }
+                                        isDisabled={isMutating}
+                                        {...register('password', {
+                                            required: 'Password is required',
+                                        })}
                                     />
                                     <InputRightElement h={'full'}>
                                         <Button
@@ -80,16 +191,18 @@ export default function Signup() {
                                         </Button>
                                     </InputRightElement>
                                 </InputGroup>
+                                <FormErrorMessage>
+                                    {errors.password && errors.password.message}
+                                </FormErrorMessage>
                             </FormControl>
+
                             <Stack spacing={10} pt={2}>
                                 <Button
                                     loadingText="Submitting"
+                                    isLoading={isMutating}
                                     size="lg"
-                                    bg={'blue.400'}
-                                    color={'white'}
-                                    _hover={{
-                                        bg: 'blue.500',
-                                    }}
+                                    colorScheme="blue"
+                                    type="submit"
                                 >
                                     Sign up
                                 </Button>
