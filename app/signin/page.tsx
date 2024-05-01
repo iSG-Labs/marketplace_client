@@ -1,21 +1,57 @@
 'use client'
 
+import { useState } from 'react'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import {
     Flex,
     Box,
     FormControl,
     FormLabel,
+    FormErrorMessage,
     Input,
+    InputGroup,
+    InputRightElement,
     Checkbox,
     Stack,
     Button,
     Heading,
-    Text,
+    useToast,
     useColorModeValue,
 } from '@chakra-ui/react'
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import Base from '@/components/Base'
+import { signInAction } from '@/auth.signin'
+
+interface Inputs {
+    email: string
+    password: string
+}
 
 export default function Signin() {
+    const [showPassword, setShowPassword] = useState(false)
+
+    const toast = useToast()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isLoading },
+    } = useForm<Inputs>()
+
+    const onSubmit: SubmitHandler<Inputs> = async (data) => {
+        try {
+            await signInAction(data)
+        } catch (error) {
+            toast({
+                title: 'Error',
+                description: 'Invalid email or password',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+                position: 'top-right',
+            })
+        }
+    }
+
     return (
         <Base>
             <Flex minH={'90vh'} align={'center'} justify={'center'}>
@@ -29,15 +65,66 @@ export default function Signin() {
                         <Heading fontSize={'2xl'} mb={5}>
                             Sign in to your account
                         </Heading>
-                        <Stack spacing={4}>
-                            <FormControl id="email">
-                                <FormLabel>Email address</FormLabel>
-                                <Input type="email" />
+                        <Stack
+                            spacing={4}
+                            as="form"
+                            onSubmit={handleSubmit(onSubmit)}
+                        >
+                            <FormControl
+                                id="email"
+                                isInvalid={errors.email ? true : false}
+                            >
+                                <FormLabel>Email</FormLabel>
+                                <Input
+                                    type="email"
+                                    isDisabled={isLoading}
+                                    {...register('email', {
+                                        required: 'Email is required',
+                                    })}
+                                />
+                                <FormErrorMessage>
+                                    {errors.email && errors.email.message}
+                                </FormErrorMessage>
                             </FormControl>
-                            <FormControl id="password">
-                                <FormLabel>Password</FormLabel>
-                                <Input type="password" />
+
+                            <FormControl
+                                id="password"
+                                isInvalid={errors.password ? true : false}
+                            >
+                                <FormLabel>password</FormLabel>
+                                <InputGroup>
+                                    <Input
+                                        type={
+                                            showPassword ? 'text' : 'password'
+                                        }
+                                        isDisabled={isLoading}
+                                        {...register('password', {
+                                            required: 'Password is required',
+                                        })}
+                                    />
+                                    <InputRightElement h={'full'}>
+                                        <Button
+                                            variant={'ghost'}
+                                            onClick={() =>
+                                                setShowPassword(
+                                                    (showPassword) =>
+                                                        !showPassword,
+                                                )
+                                            }
+                                        >
+                                            {showPassword ? (
+                                                <ViewIcon />
+                                            ) : (
+                                                <ViewOffIcon />
+                                            )}
+                                        </Button>
+                                    </InputRightElement>
+                                </InputGroup>
+                                <FormErrorMessage>
+                                    {errors.password && errors.password.message}
+                                </FormErrorMessage>
                             </FormControl>
+
                             <Stack spacing={10}>
                                 <Stack
                                     direction={{ base: 'column', sm: 'row' }}
@@ -49,13 +136,7 @@ export default function Signin() {
                                         Forgot password?
                                     </Text> */}
                                 </Stack>
-                                <Button
-                                    bg={'blue.400'}
-                                    color={'white'}
-                                    _hover={{
-                                        bg: 'blue.500',
-                                    }}
-                                >
+                                <Button type="submit" colorScheme="blue">
                                     Sign in
                                 </Button>
                             </Stack>
