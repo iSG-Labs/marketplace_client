@@ -1,6 +1,6 @@
 'use server'
 
-import { signIn as authSignIn } from './auth'
+import { signIn as authSignIn, signOut as authSignOut } from './auth'
 import { SigninPayload } from './api/types'
 
 export const signInAction = async (data: SigninPayload) => {
@@ -8,4 +8,8 @@ export const signInAction = async (data: SigninPayload) => {
         ...data,
         redirectTo: '/dashboard',
     })
+}
+
+export const signOutAction = async () => {
+    await authSignOut()
 }

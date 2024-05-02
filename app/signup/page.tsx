@@ -1,8 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import useSWRMutation from 'swr/mutation'
+import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useSession } from 'next-auth/react'
 import {
     Flex,
     Box,
@@ -35,6 +37,8 @@ interface Inputs {
 export default function Signup() {
     const [showPassword, setShowPassword] = useState(false)
 
+    const router = useRouter()
+    const { status } = useSession()
     const toast = useToast()
     const {
         register,
@@ -73,6 +77,11 @@ export default function Signup() {
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         trigger({ body: data })
     }
+
+    // check for authentication
+    useEffect(() => {
+        if (status === 'authenticated') router.push('/dashboard')
+    }, [status])
 
     return (
         <Base>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Providers } from './providers'
+import { Providers, NextAuthProvider } from './providers'
 
 export const metadata: Metadata = {
     title: 'Marketplace',
@@ -14,7 +14,9 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body>
-                <Providers>{children}</Providers>
+                <Providers>
+                    <NextAuthProvider>{children}</NextAuthProvider>
+                </Providers>
             </body>
         </html>
     )

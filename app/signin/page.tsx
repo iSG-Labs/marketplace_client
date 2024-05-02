@@ -1,7 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
+import { useSession } from 'next-auth/react'
 import {
     Flex,
     Box,
@@ -20,7 +22,7 @@ import {
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import Base from '@/components/Base'
-import { signInAction } from '@/auth.signin'
+import { signInAction } from '@/auth.action'
 
 interface Inputs {
     email: string
@@ -30,6 +32,8 @@ interface Inputs {
 export default function Signin() {
     const [showPassword, setShowPassword] = useState(false)
 
+    const router = useRouter()
+    const { status } = useSession()
     const toast = useToast()
     const {
         register,
@@ -51,6 +55,11 @@ export default function Signin() {
             })
         }
     }
+
+    // check for authentication
+    useEffect(() => {
+        if (status === 'authenticated') router.push('/dashboard')
+    }, [status])
 
     return (
         <Base>

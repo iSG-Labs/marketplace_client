@@ -1,4 +1,5 @@
 'use client'
+import { useSession } from 'next-auth/react'
 import Link from 'next/link'
 import {
     Box,
@@ -19,12 +20,14 @@ import {
     Stack,
 } from '@chakra-ui/react'
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from '@chakra-ui/icons'
+import { signOutAction } from '@/auth.action'
 
 import NavLink from './NavLink'
 
 const Links = ['Signin', 'Signup']
 
 export default function Navbar() {
+    const { status } = useSession()
     const { colorMode, toggleColorMode } = useColorMode()
     const { isOpen, onOpen, onClose } = useDisclosure()
 
@@ -63,6 +66,11 @@ export default function Navbar() {
                         <Button onClick={toggleColorMode}>
                             {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
                         </Button>
+                        {status === 'authenticated' && (
+                            <Button onClick={() => signOutAction()}>
+                                Signout
+                            </Button>
+                        )}
 
                         {/* <Menu>
               <MenuButton
