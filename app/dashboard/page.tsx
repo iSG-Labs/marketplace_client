@@ -1,8 +1,9 @@
 'use client'
 
+import { isAuth } from '@/components/Auth'
 import Navbar from '@/components/Navbar'
 
-export default function Dashboard() {
+function Dashboard() {
     return (
         <div>
             <Navbar />
@@ -10,3 +11,5 @@ export default function Dashboard() {
         </div>
     )
 }
+
+export default isAuth(Dashboard)
