@@ -28,8 +28,8 @@ import ChakraNextLink from '@/components/ChakraNextLink'
 import { signupAPI } from '@/api'
 
 interface Inputs {
-    firstName: string
-    lastName: string
+    firstname: string
+    lastname: string
     email: string
     password: string
 }
@@ -107,21 +107,21 @@ export default function Signup() {
                                     <FormControl
                                         id="firstName"
                                         isInvalid={
-                                            errors.firstName ? true : false
+                                            errors.firstname ? true : false
                                         }
                                     >
                                         <FormLabel>Frist Name</FormLabel>
                                         <Input
                                             type="text"
                                             isDisabled={isMutating}
-                                            {...register('firstName', {
+                                            {...register('firstname', {
                                                 required:
                                                     'Frist name is required',
                                             })}
                                         />
                                         <FormErrorMessage>
-                                            {errors.firstName &&
-                                                errors.firstName.message}
+                                            {errors.firstname &&
+                                                errors.firstname.message}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </Box>
@@ -130,21 +130,21 @@ export default function Signup() {
                                     <FormControl
                                         id="lastName"
                                         isInvalid={
-                                            errors.lastName ? true : false
+                                            errors.lastname ? true : false
                                         }
                                     >
                                         <FormLabel>Last Name</FormLabel>
                                         <Input
                                             type="text"
                                             isDisabled={isMutating}
-                                            {...register('lastName', {
+                                            {...register('lastname', {
                                                 required:
                                                     'Last name is required',
                                             })}
                                         />
                                         <FormErrorMessage>
-                                            {errors.lastName &&
-                                                errors.lastName.message}
+                                            {errors.lastname &&
+                                                errors.lastname.message}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </Box>
