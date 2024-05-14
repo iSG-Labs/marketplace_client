@@ -171,7 +171,7 @@ export default function Signup() {
                                 id="password"
                                 isInvalid={errors.password ? true : false}
                             >
-                                <FormLabel>password</FormLabel>
+                                <FormLabel>Password</FormLabel>
                                 <InputGroup>
                                     <Input
                                         type={
