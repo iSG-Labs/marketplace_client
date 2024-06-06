@@ -3,9 +3,11 @@ export interface SignupPayload {
     arg: {
         body: {
             email: string
+            phone: string
+            address: string
             password: string
-            firstname: string
-            lastname: string
+            firstName: string
+            lastName: string
         }
     }
 }

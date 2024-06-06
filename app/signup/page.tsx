@@ -19,6 +19,7 @@ import {
     Button,
     Heading,
     Text,
+    Textarea,
     useColorModeValue,
     useToast,
 } from '@chakra-ui/react'
@@ -28,9 +29,11 @@ import ChakraNextLink from '@/components/ChakraNextLink'
 import { signupAPI } from '@/api'
 
 interface Inputs {
-    firstname: string
-    lastname: string
+    firstName: string
+    lastName: string
     email: string
+    phone: string
+    address: string
     password: string
 }
 
@@ -107,21 +110,21 @@ export default function Signup() {
                                     <FormControl
                                         id="firstName"
                                         isInvalid={
-                                            errors.firstname ? true : false
+                                            errors.firstName ? true : false
                                         }
                                     >
                                         <FormLabel>Frist Name</FormLabel>
                                         <Input
                                             type="text"
                                             isDisabled={isMutating}
-                                            {...register('firstname', {
+                                            {...register('firstName', {
                                                 required:
                                                     'Frist name is required',
                                             })}
                                         />
                                         <FormErrorMessage>
-                                            {errors.firstname &&
-                                                errors.firstname.message}
+                                            {errors.firstName &&
+                                                errors.firstName.message}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </Box>
@@ -130,21 +133,21 @@ export default function Signup() {
                                     <FormControl
                                         id="lastName"
                                         isInvalid={
-                                            errors.lastname ? true : false
+                                            errors.lastName ? true : false
                                         }
                                     >
                                         <FormLabel>Last Name</FormLabel>
                                         <Input
                                             type="text"
                                             isDisabled={isMutating}
-                                            {...register('lastname', {
+                                            {...register('lastName', {
                                                 required:
                                                     'Last name is required',
                                             })}
                                         />
                                         <FormErrorMessage>
-                                            {errors.lastname &&
-                                                errors.lastname.message}
+                                            {errors.lastName &&
+                                                errors.lastName.message}
                                         </FormErrorMessage>
                                     </FormControl>
                                 </Box>
@@ -164,6 +167,23 @@ export default function Signup() {
                                 />
                                 <FormErrorMessage>
                                     {errors.email && errors.email.message}
+                                </FormErrorMessage>
+                            </FormControl>
+
+                            <FormControl
+                                id="phone"
+                                isInvalid={errors.phone ? true : false}
+                            >
+                                <FormLabel>Phone</FormLabel>
+                                <Input
+                                    type="text"
+                                    isDisabled={isMutating}
+                                    {...register('phone', {
+                                        required: 'Phone is required',
+                                    })}
+                                />
+                                <FormErrorMessage>
+                                    {errors.phone && errors.phone.message}
                                 </FormErrorMessage>
                             </FormControl>
 
@@ -202,6 +222,22 @@ export default function Signup() {
                                 </InputGroup>
                                 <FormErrorMessage>
                                     {errors.password && errors.password.message}
+                                </FormErrorMessage>
+                            </FormControl>
+
+                            <FormControl
+                                id="address"
+                                isInvalid={errors.address ? true : false}
+                            >
+                                <FormLabel>Address</FormLabel>
+                                <Textarea
+                                    isDisabled={isMutating}
+                                    {...register('address', {
+                                        required: 'Address is required',
+                                    })}
+                                />
+                                <FormErrorMessage>
+                                    {errors.address && errors.address.message}
                                 </FormErrorMessage>
                             </FormControl>
 
