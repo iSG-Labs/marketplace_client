@@ -25,6 +25,20 @@ import { signOutAction } from '@/auth.action'
 import NavLink from './NavLink'
 
 const Links = ['Signin', 'Signup']
+const authLinks = [
+    {
+        label: 'Create Auction',
+        url: '/auction/create',
+    },
+    {
+        label: 'View Auctions',
+        url: '/auction/all',
+    },
+    {
+        label: 'Add Product',
+        url: '/auction/product',
+    },
+]
 
 export default function Navbar() {
     const { status } = useSession()
@@ -53,11 +67,20 @@ export default function Navbar() {
                         spacing={4}
                         display={{ base: 'none', md: 'flex' }}
                     >
-                        {Links.map((link) => (
-                            <NavLink link={'/' + link.toLowerCase()} key={link}>
-                                {link}
-                            </NavLink>
-                        ))}
+                        {status !== 'authenticated'
+                            ? Links.map((link) => (
+                                  <NavLink
+                                      link={'/' + link.toLowerCase()}
+                                      key={link}
+                                  >
+                                      {link}
+                                  </NavLink>
+                              ))
+                            : authLinks.map(({ url, label }) => (
+                                  <NavLink link={url} key={url}>
+                                      {label}
+                                  </NavLink>
+                              ))}
                     </HStack>
                 </HStack>
 
