@@ -47,7 +47,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                 return token
             } else {
                 // Subsequent logins, if the `access_token` has expired, try to refresh it
-                console.log('refresing token')
                 if (!token.refreshToken)
                     throw new Error('Missing refresh token')
 
@@ -56,8 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     // at their `/.well-known/openid-configuration` endpoint.
                     // i.e. https://accounts.google.com/.well-known/openid-configuration
                     let headersList = {
-                        Accept: '*/*',
-                        Authorization: `Bearer ${token.refresh_token}`,
+                        Authorization: `Bearer ${token.refreshToken}`,
                     }
                     let response = await fetch(
                         `${process.env.API}/auth/refresh`,
@@ -68,7 +66,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                     )
 
                     let data = await response.json()
-                    console.log(data)
                     return {
                         // Keep the previous token properties
                         ...token,
@@ -91,6 +88,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         session({ session, token }) {
             if (token.user) {
                 session.user = token.user as User & AdapterUser
+                session.accessToken = token.accessToken
             }
             return session
         },
@@ -111,6 +109,7 @@ declare module 'next-auth' {
     }
 
     interface Session {
+        accessToken?: string
         error?: 'RefreshAccessTokenError'
     }
 }
