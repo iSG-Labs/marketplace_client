@@ -27,7 +27,7 @@ interface Inputs {
 }
 
 function CreateAuction() {
-    const { data } = useSession()
+    const session = useSession()
 
     const toast = useToast()
     const {
@@ -65,7 +65,18 @@ function CreateAuction() {
     )
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        trigger({ body: data })
+        if (session.data?.accessToken) {
+            trigger({ body: data, token: session.data?.accessToken })
+        } else {
+            toast({
+                title: 'Error',
+                description: 'Your session expired.',
+                status: 'error',
+                duration: 9000,
+                isClosable: true,
+                position: 'top-right',
+            })
+        }
     }
 
     return (
@@ -93,7 +104,7 @@ function CreateAuction() {
                                 <FormLabel>Auction title</FormLabel>
                                 <Input
                                     type="title"
-                                    isDisabled={isLoading}
+                                    isDisabled={isLoading || isMutating}
                                     {...register('title', {
                                         required: 'Auction title is required',
                                     })}
@@ -109,7 +120,7 @@ function CreateAuction() {
                             >
                                 <FormLabel>Auction description</FormLabel>
                                 <Textarea
-                                    isDisabled={isLoading}
+                                    isDisabled={isLoading || isMutating}
                                     {...register('description', {
                                         required:
                                             'Auction description is required',
@@ -122,7 +133,11 @@ function CreateAuction() {
                             </FormControl>
 
                             <Stack spacing={10} mt={3}>
-                                <Button type="submit" colorScheme="blue">
+                                <Button
+                                    type="submit"
+                                    colorScheme="blue"
+                                    isLoading={isMutating || isLoading}
+                                >
                                     Create Auction
                                 </Button>
                             </Stack>

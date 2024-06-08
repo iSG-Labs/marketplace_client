@@ -1,14 +1,15 @@
 import axios from 'axios'
 
 import { API } from '../utils/'
-import { CreateAuctionBody, ErrorRes } from './types'
+import { CreateAuctionArg, ErrorRes } from './types'
 
-export async function createAuctionAPI(
-    url: string,
-    { arg }: CreateAuctionBody,
-) {
+export async function createAuctionAPI(url: string, { arg }: CreateAuctionArg) {
     try {
-        const res = await axios.post(`${API}/${url}`, arg.body)
+        const res = await axios.post(`${API}/${url}`, arg.body, {
+            headers: {
+                Authorization: `Bearer ${arg.token}`,
+            },
+        })
         return res.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
