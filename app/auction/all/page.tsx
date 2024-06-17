@@ -13,7 +13,7 @@ function ViewAuctions() {
     const toast = useToast()
     const { data, isLoading } = useSWR(
         session.data?.accessToken
-            ? ['/auction', session.data.accessToken]
+            ? ['auction', session.data.accessToken]
             : null,
         ([url, token]) => viewAllAuctionAPI(url, token),
         {
@@ -37,12 +37,13 @@ function ViewAuctions() {
                 spacing={{ base: 5, lg: 15 }}
                 padding={5}
             >
-                <AuctionCard />
-                <AuctionCard />
-                <AuctionCard />
-                <AuctionCard />
-                <AuctionCard />
-                <AuctionCard />
+                {data?.map((auction) => (
+                    <AuctionCard
+                        key={auction.id}
+                        photo={'https://placehold.co/600x400'}
+                        {...auction}
+                    />
+                ))}
             </SimpleGrid>
         </Base>
     )

@@ -10,23 +10,27 @@ import {
     Divider,
     Stack,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 
-export default function AuctionCard() {
+interface Props {
+    id: string
+    title: string
+    description: string
+    photo: string
+}
+
+export default function AuctionCard(props: Props) {
     return (
         <Card maxW="sm">
             <CardBody>
                 <Image
-                    src="https://placehold.co/600x400"
+                    src={props.photo}
                     alt="Green double couch with wooden legs"
                     borderRadius="lg"
                 />
                 <Stack mt="6" spacing="3">
-                    <Heading size="md">Living room Sofa</Heading>
-                    <Text>
-                        This sofa is perfect for modern tropical spaces, baroque
-                        inspired spaces, earthy toned spaces and for people who
-                        love a chic design with a sprinkle of vintage design.
-                    </Text>
+                    <Heading size="md">{props.title}</Heading>
+                    <Text>{props.description}</Text>
                     {/* <Text color='blue.600' fontSize='2xl'>
                         $450
                     </Text> */}
@@ -35,9 +39,11 @@ export default function AuctionCard() {
             <Divider />
             <CardFooter>
                 <ButtonGroup spacing="2">
-                    <Button variant="ghost" colorScheme="blue">
-                        View Products
-                    </Button>
+                    <Link href={`/auction/products/${props.id}`}>
+                        <Button variant="ghost" colorScheme="blue">
+                            View Products
+                        </Button>
+                    </Link>
                 </ButtonGroup>
             </CardFooter>
         </Card>

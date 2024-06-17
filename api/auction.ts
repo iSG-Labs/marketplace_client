@@ -1,7 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
 import { API } from '../utils/'
-import { CreateAuctionArg, ErrorRes } from './types'
+import { Auction, CreateAuctionArg, ErrorRes } from './types'
 
 export async function createAuctionAPI(url: string, { arg }: CreateAuctionArg) {
     try {
@@ -20,11 +20,14 @@ export async function createAuctionAPI(url: string, { arg }: CreateAuctionArg) {
 
 export async function viewAllAuctionAPI(url: string, token: string) {
     try {
-        const res = await axios.get(`${API}/${url}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
+        const res = await axios.get<any, AxiosResponse<Array<Auction>>>(
+            `${API}/${url}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             },
-        })
+        )
         return res.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {

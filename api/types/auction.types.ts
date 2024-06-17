@@ -13,3 +13,12 @@ export interface ErrorRes {
     error: string
     statusCode: string
 }
+
+export interface Auction {
+    id: string
+    title: string
+    status: string
+    description: string
+    startDate: string
+    endDate: string
+}
