@@ -22,6 +22,7 @@ export interface Auction {
     startDate: string
     endDate: string
 }
+
 export interface Product {
     id: string
     name: string
@@ -35,4 +36,12 @@ export interface Product {
     auctionId: string
     createdAt: string
     updatedAt: string
+}
+
+export interface AddProductBody {
+    name: string
+    description: string
+    location: string
+    photo: string
+    auctionId: string
 }

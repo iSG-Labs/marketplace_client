@@ -39,6 +39,12 @@ export default function AuctionCard(props: Props) {
             <Divider />
             <CardFooter>
                 <ButtonGroup spacing="2">
+                    <Link href={`/auction/product/add/${props.id}`}>
+                        <Button variant="solid" colorScheme="blue">
+                            List Product
+                        </Button>
+                    </Link>
+
                     <Link href={`/auction/products/${props.id}`}>
                         <Button variant="ghost" colorScheme="blue">
                             View Products

@@ -1,7 +1,13 @@
 import axios, { AxiosResponse } from 'axios'
 
 import { API } from '../utils/'
-import { Product, Auction, CreateAuctionArg, ErrorRes } from './types'
+import {
+    Product,
+    Auction,
+    CreateAuctionArg,
+    ErrorRes,
+    AddProductBody,
+} from './types'
 
 export async function createAuctionAPI(url: string, { arg }: CreateAuctionArg) {
     try {
@@ -46,6 +52,25 @@ export async function viewAuctionProductsAPI(url: string, token: string) {
                 },
             },
         )
+        return res.data
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error((error.response?.data as ErrorRes).message)
+        }
+    }
+}
+
+export async function addProductToAuction(
+    url: string,
+    token: string,
+    body: AddProductBody,
+) {
+    try {
+        const res = await axios.post(`${API}/${url}`, body, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
         return res.data
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
