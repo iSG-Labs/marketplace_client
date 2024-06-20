@@ -1,3 +1,4 @@
+import useSWRMutation from 'swr/mutation'
 import {
     Card,
     CardBody,
@@ -9,8 +10,9 @@ import {
     ButtonGroup,
     Divider,
     Stack,
+    useToast,
 } from '@chakra-ui/react'
-import Link from 'next/link'
+import { bidOnProductAPI } from '@/api/auction'
 
 interface Props {
     id: string
@@ -25,9 +27,37 @@ interface Props {
     auctionId: string
     createdAt: string
     updatedAt: string
+    token?: string
 }
 
 export default function ProductCard(props: Props) {
+    const toast = useToast()
+    const { trigger, isMutating } = useSWRMutation(
+        props.token ? [`product/bid/${props.id}`, props.token] : null,
+        ([url, token]) => bidOnProductAPI(url, token),
+        {
+            onSuccess: () => {
+                toast({
+                    title: 'Success',
+                    description: 'Your bid added.',
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                    position: 'top-right',
+                })
+            },
+            onError: (err) => {
+                toast({
+                    title: 'Error',
+                    description: err.message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                    position: 'top-right',
+                })
+            },
+        },
+    )
     return (
         <Card maxW="sm">
             <CardBody>
@@ -47,11 +77,14 @@ export default function ProductCard(props: Props) {
             <Divider />
             <CardFooter>
                 <ButtonGroup spacing="2">
-                    <Link href={`/auction/products/${props.id}`}>
-                        <Button variant="ghost" colorScheme="blue">
-                            Bid Now
-                        </Button>
-                    </Link>
+                    <Button
+                        variant="ghost"
+                        colorScheme="blue"
+                        isLoading={isMutating}
+                        onClick={() => trigger()}
+                    >
+                        Bid Now
+                    </Button>
                 </ButtonGroup>
             </CardFooter>
         </Card>

@@ -38,7 +38,11 @@ function ViewProducts({ params }: { params: { slug: string } }) {
                 padding={5}
             >
                 {data?.map((product) => (
-                    <ProductCard key={product.id} {...product} />
+                    <ProductCard
+                        key={product.id}
+                        {...product}
+                        token={session.data?.accessToken}
+                    />
                 ))}
             </SimpleGrid>
         </Base>

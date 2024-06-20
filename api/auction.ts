@@ -78,3 +78,21 @@ export async function addProductToAuction(
         }
     }
 }
+export async function bidOnProductAPI(url: string, token: string) {
+    try {
+        const res = await axios.post(
+            `${API}/${url}`,
+            {},
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            },
+        )
+        return res.data
+    } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+            throw new Error((error.response?.data as ErrorRes).message)
+        }
+    }
+}

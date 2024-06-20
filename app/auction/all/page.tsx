@@ -33,8 +33,8 @@ function ViewAuctions() {
     return (
         <Base>
             <SimpleGrid
-                columns={{ base: 1, md: 3, xl: 4 }}
-                spacing={{ base: 5, lg: 15 }}
+                columns={{ base: 1, md: 3, xl: 3 }}
+                spacing={{ base: 5, lg: 10 }}
                 padding={5}
             >
                 {data?.map((auction) => (
