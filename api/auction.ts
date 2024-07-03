@@ -63,7 +63,7 @@ export async function viewAuctionProductsAPI(url: string, token: string) {
 export async function addProductToAuction(
     url: string,
     token: string,
-    body: AddProductBody,
+    body: FormData,
 ) {
     try {
         const res = await axios.post(`${API}/${url}`, body, {

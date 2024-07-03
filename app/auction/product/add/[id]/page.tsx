@@ -1,8 +1,10 @@
 'use client'
 
+import { useCallback, useState } from 'react'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import useSWRMutation from 'swr/mutation'
 import { useSession } from 'next-auth/react'
+import { useDropzone, DropzoneOptions, DropzoneState } from 'react-dropzone'
 import {
     Flex,
     Box,
@@ -13,6 +15,8 @@ import {
     Stack,
     Button,
     Textarea,
+    Text,
+    VStack,
     Heading,
     useToast,
     useColorModeValue,
@@ -30,8 +34,9 @@ interface Inputs {
 }
 
 function AddProduct({ params }: { params: { id: string } }) {
-    const session = useSession()
+    const [files, setFiles] = useState<File[]>([])
 
+    const session = useSession()
     const toast = useToast()
     const {
         register,
@@ -47,7 +52,7 @@ function AddProduct({ params }: { params: { id: string } }) {
         any,
         any,
         [string, string] | null,
-        Inputs,
+        FormData,
         any
     >(
         session.data?.accessToken
@@ -78,10 +83,30 @@ function AddProduct({ params }: { params: { id: string } }) {
             },
         },
     )
+    const onDrop = useCallback<NonNullable<DropzoneOptions['onDrop']>>(
+        (acceptedFiles: File[]) => {
+            // Do something with the files
+            console.log(acceptedFiles)
+            setFiles(acceptedFiles)
+        },
+        [],
+    )
+
+    // Use useDropzone with the onDrop function
+    const { getRootProps, getInputProps, isDragActive }: DropzoneState =
+        useDropzone({ onDrop })
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
         if (session.data?.accessToken) {
-            trigger(data)
+            const formData = new FormData()
+
+            formData.append('name', data.name)
+            formData.append('description', data.description)
+            formData.append('auctionId', data.auctionId)
+            formData.append('location', data.location)
+            formData.append('photo', files[0])
+
+            trigger(formData)
         } else {
             toast({
                 title: 'Error',
@@ -93,6 +118,14 @@ function AddProduct({ params }: { params: { id: string } }) {
             })
         }
     }
+
+    // Define styles using useColorModeValue
+    const borderColor = useColorModeValue('gray.300', 'gray.600')
+    const activeBorderColor = useColorModeValue('blue.400', 'blue.500')
+    const bgColor = useColorModeValue('gray.100', 'gray.700')
+    const color = useColorModeValue('gray.600', 'gray.300')
+    const fileBgColor = useColorModeValue('gray.200', 'gray.600')
+    const fileColor = useColorModeValue('black', 'white')
 
     return (
         <Base>
@@ -168,14 +201,55 @@ function AddProduct({ params }: { params: { id: string } }) {
                                 id="product-photo"
                                 isInvalid={errors.photo ? true : false}
                             >
-                                <FormLabel>Product photo</FormLabel>
-                                <Input
+                                <FormLabel>Upload Product Image</FormLabel>
+                                <Box
+                                    {...getRootProps()}
+                                    borderWidth="2px"
+                                    borderRadius="md"
+                                    borderStyle="dashed"
+                                    p={5}
+                                    bg={isDragActive ? 'gray.50' : bgColor}
+                                    color={color}
+                                    borderColor={
+                                        isDragActive
+                                            ? activeBorderColor
+                                            : borderColor
+                                    }
+                                    _hover={{ borderColor: activeBorderColor }}
+                                    transition="border 0.24s ease-in-out"
+                                    textAlign="center"
+                                    cursor="pointer"
+                                >
+                                    <input {...getInputProps()} />
+                                    <Text fontSize="md" mb={4}>
+                                        {isDragActive
+                                            ? 'Drop the files here ...'
+                                            : "Drag 'n' drop some files here, or click to select files"}
+                                    </Text>
+                                    <VStack spacing={2} align="stretch">
+                                        {files.map((file) => (
+                                            <Box
+                                                key={file.name}
+                                                bg={fileBgColor}
+                                                p={2}
+                                                borderRadius="md"
+                                                color={fileColor}
+                                                width="100%"
+                                            >
+                                                <Text isTruncated>
+                                                    {file.name}
+                                                </Text>
+                                            </Box>
+                                        ))}
+                                    </VStack>
+                                </Box>
+                                {/* <Input
                                     type="text"
                                     isDisabled={isLoading || isMutating}
                                     {...register('photo', {
                                         required: 'Product photo is required',
                                     })}
-                                />
+                                /> */}
                                 <FormErrorMessage>
                                     {errors.photo && errors.photo.message}
                                 </FormErrorMessage>
