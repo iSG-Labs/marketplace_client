@@ -1,4 +1,6 @@
 import {
+    Box,
+    Badge,
     Card,
     CardBody,
     CardFooter,
@@ -15,19 +17,46 @@ import Link from 'next/link'
 interface Props {
     id: string
     title: string
-    description: string
     photo: string
+    status: string
+    description: string
+    startDate: string
+    endDate: string
 }
 
 export default function AuctionCard(props: Props) {
     return (
         <Card maxW="sm">
             <CardBody>
-                <Image
-                    src={props.photo}
-                    alt="Green double couch with wooden legs"
-                    borderRadius="lg"
-                />
+                <Box position="relative">
+                    <Image
+                        src={props.photo}
+                        alt="Green double couch with wooden legs"
+                        borderRadius="lg"
+                    />
+                    {props.status === 'Ongoing' && (
+                        <Badge
+                            position="absolute"
+                            top="1"
+                            right="1"
+                            colorScheme="green"
+                            variant="solid"
+                        >
+                            Live
+                        </Badge>
+                    )}
+                    {props.status === 'Ended' && (
+                        <Badge
+                            position="absolute"
+                            top="1"
+                            right="1"
+                            colorScheme="red"
+                            variant="solid"
+                        >
+                            Ended
+                        </Badge>
+                    )}
+                </Box>
                 <Stack mt="6" spacing="3">
                     <Heading size="md">{props.title}</Heading>
                     <Text>{props.description}</Text>
