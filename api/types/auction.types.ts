@@ -23,6 +23,17 @@ export interface Auction {
     endDate: string
 }
 
+export interface WinnerType {
+    id: string
+    profile: {
+        firstName: string
+        lastName: string
+        address: string
+        avatarUrl: string
+    }
+    email: string
+}
+
 export interface Product {
     id: string
     name: string

@@ -74,9 +74,15 @@ export default function AuctionCard(props: Props) {
                         </Button>
                     </Link>
 
-                    <Link href={`/auction/products/${props.id}`}>
+                    {/* <Link href={`/auction/products/${props.id}`}>
                         <Button variant="ghost" colorScheme="blue">
                             View Products
+                        </Button>
+                    </Link> */}
+
+                    <Link href={`/auction/${props.id}`}>
+                        <Button variant="ghost" colorScheme="blue">
+                            View More
                         </Button>
                     </Link>
                 </ButtonGroup>

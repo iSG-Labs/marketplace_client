@@ -1,4 +1,5 @@
 import useSWRMutation from 'swr/mutation'
+import Link from 'next/link'
 import {
     Card,
     CardBody,
@@ -78,13 +79,18 @@ export default function ProductCard(props: Props) {
             <CardFooter>
                 <ButtonGroup spacing="2">
                     <Button
-                        variant="ghost"
                         colorScheme="blue"
                         isLoading={isMutating}
                         onClick={() => trigger()}
                     >
                         Bid Now
                     </Button>
+
+                    <Link href={`/auction/product/${props.id}`}>
+                        <Button variant="ghost" colorScheme="blue">
+                            View More
+                        </Button>
+                    </Link>
                 </ButtonGroup>
             </CardFooter>
         </Card>
