@@ -111,8 +111,14 @@ function ViewProduct({ params }: { params: { productId: string } }) {
                     <Text>End Date: {new Date(auctionData?.endDate || 0).toLocaleString()}</Text> */}
 
                     <Heading size="md">Winner</Heading>
-                    <Text>id: {winnerData?.id}</Text>
-                    <Text>email: {winnerData?.email}</Text>
+                    {!winnerData?.id ? (
+                        <Text>No bid found.</Text>
+                    ) : (
+                        <>
+                            <Text>id: {winnerData?.id}</Text>
+                            <Text>email: {winnerData?.email}</Text>
+                        </>
+                    )}
 
                     <Stack direction="row" spacing={4}>
                         {/* <Link href={`/auction/product/add/${params.id}`}>
