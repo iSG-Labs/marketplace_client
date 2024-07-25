@@ -7,6 +7,7 @@ import Base from '@/components/Base'
 import { isAuth } from '@/components/Auth'
 import { viewAuctionProductsAPI } from '@/api/auction'
 import { ProductCard } from '@/components/Product'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 function ViewProducts({ params }: { params: { slug: string } }) {
     const session = useSession()
@@ -32,6 +33,7 @@ function ViewProducts({ params }: { params: { slug: string } }) {
 
     return (
         <Base>
+            {isLoading && <LoadingSpinner minH={'300px'} />}
             <SimpleGrid
                 columns={{ base: 1, md: 3, xl: 4 }}
                 spacing={{ base: 5, lg: 15 }}

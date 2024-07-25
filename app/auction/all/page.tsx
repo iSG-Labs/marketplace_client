@@ -7,6 +7,7 @@ import Base from '@/components/Base'
 import { isAuth } from '@/components/Auth'
 import { viewAllAuctionAPI } from '@/api/auction'
 import { AuctionCard } from '@/components/Auction'
+import LoadingSpinner from '@/components/LoadingSpinner'
 
 function ViewAuctions() {
     const session = useSession()
@@ -32,6 +33,7 @@ function ViewAuctions() {
 
     return (
         <Base>
+            {isLoading && <LoadingSpinner minH={'300px'} />}
             <SimpleGrid
                 columns={{ base: 1, md: 3, xl: 3 }}
                 spacing={{ base: 5, lg: 10 }}
