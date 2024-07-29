@@ -145,7 +145,11 @@ export default function Signin() {
                                         Forgot password?
                                     </Text> */}
                                 </Stack>
-                                <Button type="submit" colorScheme="blue">
+                                <Button
+                                    type="submit"
+                                    colorScheme="blue"
+                                    isLoading={isLoading}
+                                >
                                     Sign in
                                 </Button>
                             </Stack>

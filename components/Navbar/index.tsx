@@ -58,7 +58,11 @@ export default function Navbar() {
                 <HStack spacing={8} alignItems={'center'}>
                     <Box>
                         <Heading size="sm" as="h4">
-                            <Link href={'/'}>Marketplace</Link>
+                            {status == 'authenticated' ? (
+                                <Link href={'/dashboard'}>Marketplace</Link>
+                            ) : (
+                                <Link href={'/'}>Marketplace</Link>
+                            )}
                         </Heading>
                     </Box>
 
