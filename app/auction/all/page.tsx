@@ -2,7 +2,14 @@
 
 import useSWR from 'swr'
 import { useSession } from 'next-auth/react'
-import { SimpleGrid, useToast } from '@chakra-ui/react'
+import {
+    Alert,
+    AlertIcon,
+    AlertTitle,
+    AlertDescription,
+    SimpleGrid,
+    useToast,
+} from '@chakra-ui/react'
 import Base from '@/components/Base'
 import { isAuth } from '@/components/Auth'
 import { viewAllAuctionAPI } from '@/api/auction'
@@ -34,6 +41,12 @@ function ViewAuctions() {
     return (
         <Base>
             {isLoading && <LoadingSpinner minH={'300px'} />}
+            {!data?.length && (
+                <Alert status="info" mt={5}>
+                    <AlertIcon />
+                    No auction found.
+                </Alert>
+            )}
             <SimpleGrid
                 columns={{ base: 1, md: 3, xl: 3 }}
                 spacing={{ base: 5, lg: 10 }}

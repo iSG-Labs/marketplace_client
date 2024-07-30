@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react'
 import { isAuth } from '@/components/Auth'
 import Base from '@/components/Base'
+import moment from 'moment'
 
 function Dashboard() {
     const session = useSession()
@@ -24,7 +25,7 @@ function Dashboard() {
         name: session.data?.user?.name || '',
         email: session.data?.user?.email || '',
         avatarUrl: session.data?.user?.image || 'https://bit.ly/broken-link',
-        memberSince: 'February 2024',
+        memberSince: moment().format('MMMM YYYY'),
         totalAuctions: 15,
         reputation: 4.8,
     }

@@ -34,10 +34,6 @@ const authLinks = [
         label: 'View Auctions',
         url: '/auction/all',
     },
-    {
-        label: 'Add Product',
-        url: '/auction/product',
-    },
 ]
 
 export default function Navbar() {
